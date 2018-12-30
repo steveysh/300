@@ -1,0 +1,165 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>PROFILE - SCHEDULELAND</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+      <script></script>
+   </head>
+   <body class="profile-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth %>
+      <!-- Main Container -->
+      <div class="container site-container">
+         <div class="row">
+            <div class="col-md-3">
+             
+			   <% if(target.local.profileImagePath){ %>
+			    <img src="/profileImg/<%=target.local.profileImagePath[0]%>.png" class="profile-img img-rounded img-responsive" />
+				  <% }else{ %>
+				    <img src="http://www.demysys.com/wp-content/uploads/2016/03/Team-Member-Place-Holder-Icon.jpg" class="profile-img img-rounded img-responsive" />
+					 <% } %>
+               <div class="user-name"><%= target.local.username %></div>
+               <div class="user-email"><%= target.local.email %></div>
+               <div class="btn-wrapper">
+                  <div class="list-group">
+
+                     <% if(target._id.toString() == user._id.toString()) { %>
+                     <% if(target.local.myFav.length>0){%>
+                     <a href="/user/<%=target._id%>/favourites" class="list-group-item" >My Favourites</a>
+                     <%}%>
+					<% if(target.local.myFriends.length>0){%>
+                     <a href="/user/<%=target._id%>/friends" class="list-group-item friend-btn" >Friends</a> <%}%>					 
+                     <a href="/user/<%=target._id%>/edit" class="list-group-item">Edit Information</a>
+					 <%}%>
+                  </div>
+               </div>
+			   <div class="rating">
+			    your rating:<br>
+            <fieldset class="rating">
+
+			  <input type="radio" id="star5" name="rating" value="5" class="radioBtnClass" /><label class = "full" for="star5" title="Meh - 5 stars"></label>
+			  <input type="radio" id="star4" name="rating" value="4"  class="radioBtnClass" /><label class = "full" for="star4" title="Below Average - 4 stars"></label>
+		      <input type="radio" id="star3" name="rating" value="3" class="radioBtnClass"  /><label class = "full" for="star3" title="Work harder - 3 stars"></label> 
+			  <input type="radio" id="star2" name="rating" value="2"  class="radioBtnClass"/><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+			  <input type="radio" id="star1" name="rating" value="1"  class="radioBtnClass"/><label class = "full" for="star1" title="Very big time - 1 star"></label>  
+		   </fieldset>
+			
+           <% if(JSON.stringify(target.local.voted).indexOf(user._id)>0&&target._id.toString() != user._id.toString()) { %>
+				<button data-href="<%=target._id%>" class="btn btn-default unchanged-rating-btn" disabled>Submitted</button>
+				<%}%>
+					<% if(JSON.stringify(target.local.voted).indexOf(user._id)==-1&&target._id.toString() != user._id.toString()) { %>
+					<button data-href="<%=target._id%>" class="btn btn-default change-rating-btn">Submit</button> 
+	             <%}%>	
+         	</div>
+			<br><br><br>
+			   <div class="rating">
+			  <% if (user.local.countvote ==0) { %>
+              <div>Average Rating:0 </div>
+              <% } else { %>
+              <div> Average Rating:<%=Math.round(user.local.rating/user.local.countvote)%></div>
+              <% } %>
+			  voted:<%=user.local.countvote%>
+			   </div>
+            </div>
+            <div class="col-md-9">
+				<% if(JSON.stringify(target.local.myFriends).indexOf(user._id)==-1&&JSON.stringify(user.local.requestFriendTo).indexOf(target._id)==-1&&target._id.toString() != user._id.toString()) { %>				  			
+          	  <div class="fd-box">
+				<% if(JSON.stringify(target.local.myFriends).indexOf(user._id)==-1&&JSON.stringify(user.local.requestFriendTo).indexOf(target._id)==-1&&target._id.toString() != user._id.toString()) { %>
+                  <div class="box-header">Do you know <%=target.local.username%> ?</div>
+				  <%}%>
+				  
+				  <div class="box-size">
+			      <div class="box-button"><%if(JSON.stringify(target.local.myFriends).indexOf(user._id)==-1&&JSON.stringify(user.local.requestFriendTo).indexOf(target._id)>0&&target._id.toString() != user._id.toString()) { %>
+                  <button data-href="<%=target._id%>" class="btn btn-default cancel-friend-btn">Cancel Friend Request</button> 
+                  <%}%>
+                  <% if(JSON.stringify(target.local.myFriends).indexOf(user._id)==-1&&JSON.stringify(user.local.requestFriendTo).indexOf(target._id)==-1&&target._id.toString() != user._id.toString()) { %>
+                  <button data-href="<%=target._id%>" class="btn btn-default add-friend-btn">Add Friend</button>	
+                  <%}%>	
+				  </div>
+
+				  <div class="box-content">Let's make friend with <%=target.local.username%></div> 
+                  			  
+				  </div>
+				  
+				  </div>
+                   <%}%>	
+               <div class="newsfeed-wrapper">
+			   
+                  <%if(notificationFriendRequest != null){ %>
+				  
+				  <br>FriendRequest:
+                  <% notificationFriendRequest.forEach(function(targetUser) { %>
+                  <div class="card">
+                     <div class="card-content">
+                        <%=JSON.stringify(targetUser.requestFrom)%> has sent you a friend request!
+                        <a href="javascript:;" data-id="<%=targetUser.requestFromId%>" class="btn btn-default accept-btn">Accept</a>
+                        <a href="javascript:;" data-id="<%=targetUser.requestFromId%>" class="btn btn-default reject-btn">Reject</a>
+                     </div>
+                  </div>
+                  <% }); %>
+				   <%if(notificationActivityFrom != null){ %>
+				   ActivityRequest:
+                  <% notificationActivityFrom.forEach(function(targetUser) { %>
+                  <div class="card">
+                     <div class="card-content">
+						
+                        <%=JSON.stringify(targetUser.From)%> has invited you to join activity!
+							 <a href="javascript:;" data-id="<%=targetUser.FromActivities%>" class="btn btn-default detail-btn">Detail</a>
+							 <a href="javascript:;" data-id="<%=targetUser.FromActivities%>" class="btn btn-default rejectinvite-btn">Reject</a>
+                     </div>
+                  </div>
+				  <% }); %>
+				
+				  <%}%>
+				  
+                  <!--No notifications-->
+                
+				 
+				  <%}else{%>
+				  
+				  
+				  
+				  
+				  
+                  
+				  
+                 
+			 <%if(notificationActivityFrom != null){ %>
+				  <br> ActivityRequest:
+                  <% notificationActivityFrom.forEach(function(targetUser) { %>
+                  <div class="card">
+                     <div class="card-content">
+					 
+                        <%=JSON.stringify(targetUser.From)%> has invited you to join activity!
+						<a href="javascript:;" data-id="<%=targetUser.FromActivities%>" class="btn btn-default detail-btn">Detail</a>
+						<a href="javascript:;" data-id="<%=targetUser.FromActivities%>" class="btn btn-default rejectinvite-btn">Reject</a>
+                     </div>
+                  </div>
+                  <% }); %>
+				  <%if(notificationFriendRequest != null){ %>			  
+				 FriendRequest:				  
+                  <% notificationFriendRequest.forEach(function(targetUser) { %>
+                  <div class="card">
+                     <div class="card-content">
+                        <%=JSON.stringify(targetUser.requestFrom)%> has sent you a friend request!
+                        <a href="javascript:;" data-id="<%=targetUser.requestFromId%>" class="btn btn-default accept-btn">Accept</a>
+                        <a href="javascript:;" data-id="<%=targetUser.requestFromId%>" class="btn btn-default reject-btn">Reject</a>
+                     </div>
+                  </div>
+				  <% }); %>
+				  <%}%>
+				  <%}%>
+				  <%}%>
+				  
+				  <%if(target._id.toString() == user._id.toString()&&notificationActivityFrom == null&&notificationFriendRequest == null){%>
+				   <div class="well">No notifications found</div>
+				  <%}%>
+				 
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Fixed Footer -->
+      <% include inc/footer %>
+   </body>
+</html>

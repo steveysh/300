@@ -1,0 +1,53 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>SCHEDULELAND</title>
+   </head>
+   <body class="schedule-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth %>
+      <!-- Main Container -->
+      <div class="container site-container">
+         <div class="right_col" role="main">
+            <div class="row">
+               <div class="col-md-12">			   
+                  <div class="col-sm-12 alert alert-success" role="alert" style="display:none">
+            
+                  </div>
+                  <div class="col-sm-12 sameDayAlert alert alert-danger" role="alert" style="display:none">
+                          
+                  </div>
+				  
+				  <div class="col-sm-12 sameTimeAlert alert alert-danger" role="alert" style="display:none">
+                          
+                  </div>
+               </div>
+               <div class="x_panel">
+                  <div class="x_title">
+                     <!--<h2><%= user.local.username %>'s Schedule</h2>-->
+                     <div class="schedule-calendar">
+                        <div class="x_content">
+                           <div id='calendar'></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="calendar-tips">
+                  <div class="col-md-2">
+                     <div class="today-color">
+                        <div class="tip">Today</div>
+                     </div>
+                  </div>
+                  <div class="col-md-2">
+                     <div class="event-color">
+                        <div class="tip">Event</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- Fixed Footer -->
+      <% include inc/footer %>
+   </body>
+</html>

@@ -1,0 +1,204 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>ACTIVITIES - SCHEDULELAND</title>
+   </head>
+   </head>
+   <body class="activities-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth.ejs %>
+      <div class="container site-container">
+         <div class="container-fluid">
+            <h3>Searching result of <%=keyword%> </h3>
+         </div>
+         <hr>
+
+		 <%if(!paging)paging=1%>
+         <div class="row">
+            <div class="col-md-8">
+               <div id="custom-search-input">
+                  <div class="input-group col-md-12">
+                     <input type="text" class="form-control inputKeyword" placeholder="Enter some keywords.." />
+                     <span class="input-group-btn">
+                     <button type="submit" class="btn btn-default btn-search">
+                     <span class="glyphicon glyphicon-search"></span>
+                     </button>
+                     </span>
+                  </div>
+               </div>
+               <!-- /input-group -->
+            </div>
+            <div class="col-md-2">
+               <a href="/advance" class="btn btn-primary advance-btn">Advanced Searching</a>
+            </div>
+            <div class="col-md-2">
+               <a href="/createActivity" class="btn btn-primary">Create Activity</a>
+            </div>
+            <!-- /input-group -->
+            <!-- /.col-lg-6 -->
+         </div>
+         <hr>
+         <ul class="nav nav-tabs">
+            <li role="presentation"><button type="submit" class="btn btn-link btn-sort" value = 0>Latest</button></li>
+            <li role="presentation"><button type="submit" class="btn btn-link btn-sort" value = 1>Date</button></li>
+            <li role="presentation"><button type="submit" class="btn btn-link btn-sort" value = 2>Time</button></li>
+            <li align="center">
+               <div class="dropdown">
+                  <button class="dropbtn">Type</button>
+                  <div class="dropdown-content">
+                     <button type="submit" class="btn btn-link btn-type" value = "undefined">All</button>
+                     <button type="submit" class="btn btn-link btn-type" value = "party">Party</button>
+                     <button type="submit" class="btn btn-link btn-type" value = "meeting">Meeting</button>
+                     <button type="submit" class="btn btn-link btn-type" value = "travel">Travel</button>
+                     <button type="submit" class="btn btn-link btn-type" value = "family">Family Event</button>
+                  </div>
+               </div>
+            </li>
+         </ul>
+         <div class="row">
+            <%var item = 0;%>
+            <!-- /search in both case -->
+            <% event.forEach(function(event) { %>
+            <!-- /type filter -->
+            <% if( event.local.code == type|| type == "undefined" ){%>
+            <!-- /target in lowercase -->
+            <% var title = event.local.title.toLowerCase(),description = event.local.description.toLowerCase(),location = event.local.location.toLowerCase()%>
+            <!-- /keyword to lowercase -->
+            <% if(keyword!=null){%>
+            <%var keyword2 = keyword.toLowerCase()%>
+            <%}%>
+            <% if(title.indexOf(keyword2)!=-1||description.indexOf(keyword2)!=-1||location.indexOf(keyword2)!=-1) {%>
+            <!-- /number of people -->
+            <% if(event.local.number == number || number == "undefined" || number == null || number == "Not sure")	{%>		
+            <%if(dstart!=null){%>				
+            <%var date1= new Date(dstart.substring(6,10),dstart.substring(0,2)-1,dstart.substring(3,5))%>
+            <%var date2= new Date(dend.substring(6,10),dend.substring(0,2)-1,dend.substring(3,5))%>
+            <%}%>
+            <!-- /date  -->
+            <% if(((date1<=event.local.date)&&(date2>=event.local.date))||((date1<=event.local.date)&&(!dend))||
+               ((!dstart)&&(date2>=event.local.date))||((!dstart)&&(!dend)))	{%>	
+            <% if(((tFrom<=event.local.startTime)&&(tTo>=event.local.finishTime))||((tFrom<=event.local.startTime)&&(!tTo))||
+               ((!tFrom)&&(tTo>=event.local.finishTime))||((!tTo)&&(!tFrom))) {%>
+            <%item++%>
+			
+            <%if ((item<=paging*9)&&(item>(paging-1)*9)){%>
+            <div class="col-lg-4">
+               <div class="wrapper">
+                  <div class="card radius shadowDepth1">
+                     <div class="card__image border-tlr-radius">
+                        <% if(event.local.filename){ %>
+                        <img class="card-img-top" src="/img/<%=event.local.filename%>.png" alt="<%=event.local.filename%>" height="320" width="300" class="border-tlr-radius">
+                        <% }else{ %>
+                        <img class="card-img-top" src="https://dummyimage.com/360x320/e6e1e6/4d394d.png&text=No+Preview" alt="Card image cap" height="320" width="300" class="border-tlr-radius">
+                        <% } %>
+                     </div>
+                     <div class="card__content card__padding">
+                        <div class="card__meta">
+                           <time><%= new Date(event.local.date).getDate(); %>/<%= (new Date(event.local.date).getMonth())+1; %>/<%= new Date(event.local.date).getFullYear(); %></time>
+                        </div>
+                        <article class="card__article">
+                           <h2><a href="/activities/details/<%= event._id %>"><%= event.local.title %></a></h2>
+                           <p><%=event.local.startTime%>-<%=event.local.finishTime%>
+                           </p>
+                           <p class="location">Being held at: <%= event.local.location %></p>
+                           <p class="description">Description:<%= event.local.description %></p>
+                           <p class="detail-btn-wrapper"><a href="/activities/details/<%= event._id %>" class="btn btn-primary btn-lg click-activity-btn">Details</a></p>
+                        </article>
+                     </div>
+                     <div class="card__action">
+                        <div class="card__author">
+                           <img src="https://dummyimage.com/40x40/000/fff" alt="user">
+                           <div class="card__author-content">
+                              By <a href="#"><%= event.local.createdBy %></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <% }); %>
+            <% event.forEach(function(event) { %>
+            <!-- /type filter -->
+            <% if( event.local.code == type|| type == "undefined" ){%>
+            <!-- /number of people -->
+            <% if(event.local.number == number || number == "undefined" || number == null || number == "Not sure")	{%>		
+            <%if(dstart!=null){%>				
+            <%var date1= new Date(dstart.substring(6,10),dstart.substring(0,2)-1,dstart.substring(3,5))%>
+            <%var date2= new Date(dend.substring(6,10),dend.substring(0,2)-1,dend.substring(3,5))%>
+            <%}%>
+            <!-- /date  -->
+            <% if(((date1<=event.local.date)&&(date2>=event.local.date))||((date1<=event.local.date)&&(!dend))||
+               ((!dstart)&&(date2>=event.local.date))||((!dstart)&&(!dend)))	{%>	
+            <% if(((tFrom<=event.local.startTime)&&(tTo>=event.local.finishTime))||((tFrom<=event.local.startTime)&&(!tTo))||
+               ((!tFrom)&&(tTo>=event.local.finishTime))||((!tTo)&&(!tFrom))) {%>
+            <% if(keyword==null) {%>
+            <%item++%>
+			
+<%if ((item<=paging*9)&&(item>(paging-1)*9)){%>
+            <div class="col-lg-4">
+               <div class="wrapper">
+                  <div class="card radius shadowDepth1">
+                     <div class="card__image border-tlr-radius">
+                        <% if(event.local.filename){ %>
+                        <img class="card-img-top" src="/img/<%=event.local.filename%>.png" alt="<%=event.local.filename%>" height="320" width="300" class="border-tlr-radius">
+                        <% }else{ %>
+                        <img class="card-img-top" src="https://dummyimage.com/360x320/e6e1e6/4d394d.png&text=No+Preview" alt="Card image cap" height="320" width="300" class="border-tlr-radius">
+                        <% } %>
+                     </div>
+                     <div class="card__content card__padding">
+                        <div class="card__meta">
+                           <time><%= new Date(event.local.date).getDate(); %>/<%= (new Date(event.local.date).getMonth())+1; %>/<%= new Date(event.local.date).getFullYear(); %></time>
+                        </div>
+                        <article class="card__article">
+                           <h2><a href="/activities/details/<%= event._id %>"><%= event.local.title %></a></h2>
+                           <p><%=event.local.startTime%>-<%=event.local.finishTime%>
+                           </p>
+                           <p class="location">Being held at: <%= event.local.location %></p>
+                           <p class="description">Description:<%= event.local.description %></p>
+                           <p class="detail-btn-wrapper"><a href="/activities/details/<%= event._id %>" class="btn btn-primary btn-lg click-activity-btn">Details</a></p>
+                        </article>
+                     </div>
+                     <div class="card__action">
+                        <div class="card__author">
+                           <img src="https://dummyimage.com/40x40/000/fff" alt="user">
+                           <div class="card__author-content">
+                  By <a href="../user/<%= event.local.createdByID%>"><%= event.local.createdBy%></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+       <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <%}%>
+            <% }); %>
+			
+			 <%console.log(paging)%>
+         </div>
+         <div class="page_line">
+            <hr>
+            <nav aria-label="Page navigation">
+               <ul class="pagination"  >
+				  <li class="page-item"><button type="submit" class="btn btn-success btn-paging" value = 1>&laquo;</button></li>
+                  <% for (i=1; i<=item/10+1; i++) { %>
+				  <li class="page-item"><button type="submit" class="btn btn-success btn-paging" value = <%= i %>><%= i %></button></li>
+                  <% } %>
+               </ul>
+            </nav>
+         </div>
+      </div>
+      <!--footer-->
+      <% include inc/footer %>
+   </body>
+</html>
+<!-- http://www.freepik.com/free-psd/blue-web-template-in-flat-design_701281.htm -->

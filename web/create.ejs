@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <% include inc/head %>
+      <title>CREATE A NEW ACTIVITY - SCHEDULELAND</title>
+   </head>
+   <body class="activities-page create-page">
+      <% include inc/navbar_auth %>
+      <div class="container site-container">
+         <div class="row">
+            <form class="form-horizontal" id="frm1" name="pgenerate">
+		<div class="create-form">
+		  <div class="panel panel-default">
+		   <div class="edit-account panel-heading">
+               <h2 class="create-header">Create your activity</h2>
+			   </div>
+               <div class="create-content panel-body">
+                  <div class="form-group">
+                     <label for="inputTitle" class="col-sm-2 control-label">Title</label>
+                     <div class="col-sm-5">
+                        <input type="text" class="form-control inputTitle" name="inputTitle" placeholder="TITLE OF YOUR EVENT" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputOrganizer" class="col-sm-2 control-label">Organizer</label>
+                     <div class="col-sm-5">
+                        <input type="text" class="form-control inputOrganizer" name="inputOrganizer" placeholder="ORGANIZER OF YOUR EVENT" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputDate" class="col-sm-2 control-label">Date</label>
+                     <div class="col-sm-5">
+                        <input type="date" class="form-control inputDate" name="inputDate" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputStartTime" class="col-sm-2 control-label">Starting Time</label>
+                     <div class="col-sm-5">
+                        <input type="time" class="form-control inputStartTime" name="inputStartTime" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputFinishTime" class="col-sm-2 control-label">Finishing Time</label>
+                     <div class="col-sm-5">
+                        <input type="time" class="form-control inputFinishTime" name="inputFinishTime" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputLocation" class="col-sm-2 control-label">Location</label>
+                     <div class="col-sm-5">
+                        <input type="text" class="form-control inputLocation" name="inputLocation" placeholder="FULL ADDRESS OF YOUR EVENT" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="inputDescription" class="col-sm-2 control-label">Description</label>
+                     <div class="col-sm-5">
+                        <textarea type="text" class="form-control inputDescription" name="inputDescription" rows="4" placeholder=""></textarea>
+                     </div>
+                  </div>
+				  <div class="form-group">
+				  <label for="inputCode" class="col-sm-2 control-label">Type</label>
+				  <div class="col-sm-5 input-type">
+				    <select class="inputCode form-control">
+                 <option value="uncategorized">Uncategorized</option>					
+                 <option value="party">Party</option>
+                 <option value="meeting">Meeting</option>
+                 <option value="travel">Travel</option>
+                 <option value="family">Family Event</option>				 
+                 </select>
+				 <input type="text" class="col-sm-2 form-control inputCodeText" name="inputCode" placeholder="Type of Event" style="display:none">
+                 </div>
+				 </div>
+				  <div class="form-group">
+				  <label for="inputNumber" class="col-sm-2 control-label">Expected number of participants</label>
+				  <div class="col-sm-5 input-number">
+				    <select class="inputNumber form-control">
+                 <option value="Not sure">Not sure</option>					
+                 <option value="1-2">1-2</option>
+                 <option value="3-4">3-4</option>
+                 <option value="5-8">5-8</option>
+                 <option value="9-12">9-12</option>                 
+				 <option value=">12">>12</option>				 
+                 </select>
+				 <input type="text" class="col-sm-2 form-control inputNumberText" name="inputNumber" placeholder="Number of people" style="display:none">
+                 </div>
+				 </div>
+
+                  <div class="form-group">
+                     <label for="inputImage" class="col-sm-2 control-label">Image(Optional)</label>
+                     <div class="col-sm-5">
+                        <br>
+                        <img class="image-holder imgSrc" alt="your image can be preview here before you upload" width="450" height="300" style="display:none"/>
+                        <label class="btn btn-primary">
+                        Browse&hellip; <input type="file" class="fileUpload inputFile" name="inputFile" style="display: none;">
+                        </label>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-5">
+                        <button type="submit" class="btn btn-primary create-activity-btn">Submit</button>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-sm-offset-2 col-sm-5 alert alert-success notifiying" role="alert" >
+                        You have created a new activity successfully. Redirecting to <a href="http://localhost:10880/activities" class="alert-link">Activity List</a> after 3 seconds
+                     </div>
+                     <div class="col-sm-offset-2 col-sm-5 alert alert-danger notifiying" role="alert" >
+                     </div>
+                  </div>
+               </div>
+			   </div>
+             </div>
+			 </form>
+		</div> 
+      </div>
+      <!-- Fixed Footer -->
+      <% include inc/footer %>
+   </body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>MY FAVOURITES - SCHEDULELAND</title>
+   </head>
+   </head>
+   <body class="favourites-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth.ejs %>
+      <div class="container site-container">
+
+         <hr>
+         <ul class="nav nav-tabs">
+            <li role="presentation"><a href=?sorts=0>Latest</a></li>
+            <li role="presentation"><a href=?sorts=1>Date</a></li>
+            <li role="presentation"><a href=?sorts=2>Time</a></li>
+            <li role="presentation"><a href=?sorts=3>Location</a></li>
+         </ul>
+         <div class="row">
+		 
+            <% event.forEach(function(event) { %>
+			<% for (i=0; i<=user.local.myFav.length ; i++) { %>
+			<% if(user.local.myFav[i] == event._id ){ %>
+
+            <div class="col-lg-4">
+               <div class="wrapper">
+                  <div class="card radius shadowDepth1">
+                     <div class="card__image border-tlr-radius">
+                        <% if(event.local.filename){ %>
+                        <img class="card-img-top" src="/img/<%=event.local.filename%>.png" alt="<%=event.local.filename%>" height="320" width="300" class="border-tlr-radius">
+                        <% }else{ %>
+                        <img class="card-img-top" src="https://dummyimage.com/360x320/e6e1e6/4d394d.png&text=No+Preview" alt="Card image cap" height="320" width="300" class="border-tlr-radius">
+                        <% } %>
+                     </div>
+                     <div class="card__content card__padding">
+                        <div class="card__meta">
+                           <time><%= new Date(event.local.date).getDate(); %>/<%= (new Date(event.local.date).getMonth())+1; %>/<%= new Date(event.local.date).getFullYear(); %></time>
+                        </div>
+                        <article class="card__article">
+                           <h2><a href="/activities/details/<%= event._id %>"><%= event.local.title %></a></h2>
+						   <p><%=event.local.startTime%>-<%=event.local.finishTime%>
+                          </p>
+                           <p class="location">Being held at: <%= event.local.location %></p>
+                           <p class="description">Description:<%= event.local.description %></p>
+                           <p class="detail-btn-wrapper"><a href="/activities/details/<%= event._id %>" class="btn btn-primary btn-lg click-activity-btn">Details</a></p>
+                        </article>
+                     </div>
+                     <div class="card__action">
+                        <div class="card__author">
+                           <img src="https://dummyimage.com/40x40/000/fff" alt="user">
+                           <div class="card__author-content">
+                              By <a href="/user/<%= event.local.createdByID%>"><%= event.local.createdBy%></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+			<% } %>
+			<% } %>
+            <% }); %>
+         </div>
+
+      </div>
+      <!--footer-->
+      <% include inc/footer %>
+   </body>
+</html>
+<!-- http://www.freepik.com/free-psd/blue-web-template-in-flat-design_701281.htm -->

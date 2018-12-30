@@ -1,0 +1,173 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>DETAIL - SCHEDULELAND</title>
+   </head>
+   <body class="activities-page detail-page">
+      <% include inc/navbar_auth %>
+      <div class="container site-container">
+         <div class="row">
+            <div class="thumbnail">
+               <!-- Nick's coding for demo-->
+               <% if(event.local.filename){ %>
+               <img class="img-responsive" src="/img/<%=event.local.filename%>.png" alt="<%=event.local.filename%>" height="800" width="300">
+               <% }else{ %>
+               <img class="img-responsive" src="http://placehold.it/800x300" alt="" height="800" width="300">
+               <% } %>
+               <!--
+                  <img class="img-responsive" src="http://placehold.it/800x300" alt="">
+                  -->
+               <div class="caption-full">
+                  <h2><a href="#"><%= event.local.title %></a>
+                  </h2>
+                  <div class="sub-header">Organizer:</div>
+                  <p><%= event.local.organizer %></p>
+                  <div class="sub-header">Date:</div>
+                  <p><%= new Date(event.local.date).getDate(); %>/<%= (new Date(event.local.date).getMonth())+1; %>/<%= new Date(event.local.date).getFullYear(); %></p>
+                  <div class="sub-header">Time:</div>
+						   <p><%=event.local.startTime%>-<%=event.local.finishTime%>
+                      </p>
+                  <div class="sub-header">Location:</div>
+                  <p><%= event.local.location %></p>
+                  <div class="sub-header">Description:</div>
+                  <p><%= event.local.description %></p>
+                  <div class="sub-header">Type:</div>
+                  <p><%= event.local.code %></p>
+                  <div class="sub-header">Expected number of participants:</div>
+                  <p><%= event.local.number %></p>
+                  <div class="sub-header">Created At:</div>
+                  <p><%= new Date(event.local.createdAt).getDate(); %>/<%= (new Date(event.local.createdAt).getMonth())+1; %>/<%= new Date(event.local.createdAt).getFullYear(); %> <%= new Date(event.local.createdAt).getHours()<10? '0'+ new Date(event.local.createdAt).getHours(): new Date(event.local.createdAt).getHours(); %>:<%= new Date(event.local.createdAt).getMinutes()<10? '0'+ new Date(event.local.createdAt).getMinutes(): new Date(event.local.createdAt).getMinutes(); %></p>
+                  <div class="sub-header">Last Modified At:</div>
+                  <p><%= new Date(event.local.lastModifiedAt).getDate(); %>/<%= (new Date(event.local.lastModifiedAt).getMonth())+1; %>/<%= new Date(event.local.lastModifiedAt).getFullYear(); %> <%= new Date(event.local.lastModifiedAt).getHours()<10? '0'+ new Date(event.local.lastModifiedAt).getHours(): new Date(event.local.lastModifiedAt).getHours(); %>:<%= new Date(event.local.lastModifiedAt).getMinutes()<10? '0'+ new Date(event.local.lastModifiedAt).getMinutes(): new Date(event.local.lastModifiedAt).getMinutes(); %></p>
+                  <p><%=count%> views</p>
+                  <% if(user.local.username == event.local.createdBy){ %>
+                  <a href="/activities/edit/<%= event._id %>" class="btn btn-primary btn-md edit-activity-btn">Edit</a>
+                  <a href="#" data-toggle="modal" data-target="#inviteModal" class="btn btn-primary btn-md invite-event-btn">Invite friend</a> 
+                  <% }else{ %>
+                  <a href="#" data-id="<%= event._id %>" class="btn btn-primary btn-md join-activity-btn">Join</a>
+                  <%    var arrayLength = user.local.myFav.length;
+                     for (var i = 0; i < arrayLength; i++){
+                        if (user.local.myFav[i] == event._id){ %>
+                  <a href="#" data-id="<%= event._id %>" class="btn btn-primary btn-md added-btn">Added</a>
+                  <% var added = true;
+                     }   
+                     } %>
+                  <% if (!added){ %>
+                  <a href="#" data-id="<%= event._id %>" class="btn btn-primary btn-md add-to-fav-btn">Add to Favorites</a> 
+                  <% } %>
+                  <a href="#" data-toggle="modal" data-target="#inviteModal" class="btn btn-primary btn-md invite-event-btn">Invite friend</a>  
+                  <% } %>
+               </div>
+            </div>
+			
+			
+            <div class="well">
+               <div class="col-md-12">
+                  <div class="comment-box">
+                     <form>
+                        <input type="text" class="form-control inputComment" placeholder="Leave your comments here.." ></input>
+                     </form>
+                  </div>
+               </div>
+               <span class="input-group-btn">
+                  <div class="text-right">
+                     <button type="submit" class="btn btn-default comment-btn">Leave a Review</button> 
+                  </div>
+               </span>
+               <hr>
+
+			   
+			     
+				  <% var count = event.local.comment.length %>
+				  <% for (i=count-1-((page-1)*10); i>=count-((page)*10); i--) { %>
+				  
+				  <%if(i==-1){%>
+				  <%break%>
+				  <%}%>	
+				  
+                  <div class="row">
+                     <div class="col-md-12">
+                        <%= event.local.comment[i].commentBy %>
+                        <span class="pull-right"><%= event.local.comment[i].commentAt %></span>
+                        <p><%= event.local.comment[i].content %></p>
+                     </div>
+                  </div>
+                  <hr>
+                  <%}%>		   
+                <!--King's code has been deleted-->
+                
+               <div class="page_line">
+                  <hr>
+                  <nav aria-label="Page navigation">
+                     <ul class="pagination"  >
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                        <% for (i=1; i<=(count/10)+1; i++) { %>
+                        <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+                        <% } %>
+                     </ul>
+                  </nav>
+               </div>
+            </div>
+			
+			
+         </div>
+      </div>
+      <div class="modal" id="inviteModal" role="dialog">
+         <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                     <h1 class="text-center">Invite Your friend</h1>
+                  </div>
+                  <div class="modal-body">
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                           <div class="text-center">
+                              <p>Choose a friend you wish to invite</p>
+                              <div class="panel-body">
+                                 <form method="POST">
+                                    <div class="form-group">                         
+                                       <% friend.forEach(function(friend) { %>
+                                       <input type="checkbox" name="friend" value="<%=friend.local.username%>">
+                                       <% if(friend.local.profileImagePath){ %>
+                                       <img class="card-img-top" src="/profileImg/<%=friend.local.profileImagePath%>.png"  alt="<%=friend.local.profileImagePath%>" height="30" width="30" class="border-tlr-radius">
+                                       <% }else{ %>
+                                       <img class="card-img-top" src="https://dummyimage.com/360x320/e6e1e6/4d394d.png&text=No+Preview" alt="Card image cap" height="30" width="30" class="border-tlr-radius">
+                                       <% } %>  
+                                       <%=friend.local.username%>  
+                                       <% }); %>
+                                    </div>
+                                    <button type="submit" data-id="<%=user._id%>" data-href="<%=event._id%>"  class="sd-invite-btn btn-lg btn-primary btn-block" >Submit</button>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <div class="col-md-12">
+                        <button class="btn" name="cancelreset" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      </div>
+      <!-- /.container -->
+      <div class="col-sm-offset-2 col-sm-5 alert alert-success notifiying" role="alert" >
+         You have joined this activity successfully. Redirecting to <a href="http://localhost:10880/schedule" class="alert-link">MY SCHEDULE</a> after 3 seconds
+      </div>
+      <div class="col-sm-offset-2 col-sm-5 alert alert-danger notifiying" role="alert" >
+         Oops! Something went wrong. Please try again later.
+      </div>
+      <div class="col-sm-offset-2 col-sm-5 alert alert-info notifiying" role="alert" >
+         You have added your comment successfully.
+         Refreshing now.
+      </div>
+      <!--footer-->
+      <% include inc/footer %>
+   </body>
+</html>

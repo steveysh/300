@@ -1,0 +1,68 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>FRIENDS - SCHEDULELAND</title>
+   </head>
+   </head>
+   <body class="friends-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth.ejs %>
+      <div class="container site-container">
+	    <h2 class="title">FRIENDS</h2>
+	  
+         <div class="row">
+		 <%if(friend!=null){%>
+		  
+		
+            <% friend.forEach(function(friend) { %>
+			   <div class="col-lg-6">
+               
+			   <div class="fd-box">
+			   
+                  <div class="box-size"> 
+                         <% if(friend.local.profileImagePath){ %>
+                        <img class="card-img-top" src="/profileImg/<%=friend.local.profileImagePath%>.png"  alt="<%=friend.local.profileImagePath%>" height="100" width="100" class="border-tlr-radius">
+                        <% }else{ %>
+                        <img class="card-img-top" src="https://dummyimage.com/360x320/e6e1e6/4d394d.png&text=No+Preview" alt="Card image cap" height="85" width="85" class="border-tlr-radius">
+                        <% } %>				  
+					 <div class="box-button">
+                     <div class="detail-btn-wrapper"><a href="/user/<%=friend._id %>" class="btn btn-primary btn-md click-profile-btn" >Details</a></div></div>
+					 <div class="box-content">
+
+                           
+						   <a href="/user/<%= friend._id %>"><%= friend.local.username %></a>
+                           <div><%= friend.local.email %></div>
+                           
+                        
+                     </div>
+                     
+					 <div class="card__action">
+                      
+                     </div>
+                  
+				  </div>
+               </div>
+            </div>
+   
+            <% }); %>
+			<%}else{%>
+			 <div class="well">No friends found</div>
+			 <%}%>
+         </div>
+         <div class="page_line">
+            <hr>
+            <nav aria-label="Page navigation">
+               <ul class="pagination"  >
+                  <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                  <% for (i=1; i<=pages+1; i++) { %>
+                  <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+                  <% } %>
+               </ul>
+            </nav>
+         </div>
+      </div>
+      <!--footer-->
+      <% include inc/footer %>
+   </body>
+</html>
+<!-- http://www.freepik.com/free-psd/blue-web-template-in-flat-design_701281.htm -->

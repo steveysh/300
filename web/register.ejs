@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <% include inc/head %>
+      <title>REGISTER - SCHEDULELAND</title>
+   </head>
+   <body class="register-page">
+      <% include inc/navbar %>
+      <div class="container site-container">
+         <% if (message.length > 0) { %>
+         <div class="alert alert-danger"><%= message %></div>
+         <% } %>
+          <div class="row">
+            <div class="col-md-4">
+                <h2>HELLO THERE</h2>
+                <div class="welcome-box">
+                   <h3>Why should I register?</h3>
+                   <br>
+                   <ul class="welcome-list">
+                      <li>Creating a SCHEDULELAND account is fast and simple. It is completely free.</li>
+                      <li>You are able to find the events at your preference and manage your scheduling.</li>
+                      <li>Privacy is of the importance. Personal information will be kept private and not avilable with anyone without your permission.</li>
+                   </ul>
+                </div>
+
+            </div>
+            <div class="col-md-8">
+               <form class="registerform" action="" method="post">
+                  <div class="form-wrapper">
+                     <label><b>Username</b></label>
+                     <input type="text" placeholder="Enter Username" class="register-name" name="username" required>
+                     <label><b>Password</b></label>
+                     <input type="password" placeholder="Enter Password" class="register-pass" name="password" required>
+                     <label><b>Confirm Password</b></label>
+                     <input type="password" placeholder="Enter Confirm Password" class="confirm-pass" name="confirmPassword" required>
+                     <label><b>Email</b></label>
+                     <input type="email" placeholder="Enter email-address" class="email" name="email" required>
+                     <button class="create-btn"  type="submit">Create</button>
+                     <a href="login">Already have an account?</a>
+                  </div>
+               </form>
+            </div>
+        </div>
+      </div>
+      <% include inc/footer %>
+   </body>
+</html>

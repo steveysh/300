@@ -1,0 +1,136 @@
+<html>
+   <head>
+      <% include inc/head %>
+      <title>EDIT INFORMATION - SCHEDULELAND</title>
+   </head>
+   <body class="edit-page">
+      <!-- Fixed navbar -->
+      <% include inc/navbar_auth %>
+      <!-- Main Container -->
+      <div class="container site-container">
+         <section>
+		  <div class="panel panel-default">
+		     <% if (message.length > 0) { %>
+               <div class="alert alert-success"><%= message %></div>
+			   
+               <% } %>
+		
+					 
+		   <div class="alert alert-danger passwordalert" role="alert" style="display:none">
+				 Fail to change password!
+				 </div>
+			<div class="alert alert-danger emailalert" role="alert" style="display:none">
+				 Fail to change email address!
+				 </div>
+			<div class="alert alert-danger notificationalert" role="alert" style="display:none">
+				 Fail to change email notification!
+				 </div>
+				<div class="alert alert-success ProfilePicAlert" role="alert" style="display:none">
+                        You have updated a profile picture successfully.
+                     </div>
+            <div class="edit-account panel-heading">
+               <h2>Account Information</h2>
+            </div>
+            <div class="edit-content panel-body">
+            
+			    
+				 
+               <div class="row">
+                  <!-- left column -->
+                  <div class="col-md-3">
+                     <div class="edit-profileimage">
+                        <form action="">
+                           <fieldset>
+                              <div class="form-group">
+                                 <legend>Update Profile image:</legend>
+                                 <form id="form1">
+                                    <img class="imgSrc" id="source" src="https://dummyimage.com/300x200/000000/ffffff&text=Image+Preview+" alt="your image can be preview here before you upload" width="300" height="200" style="display:none"/>
+                                 </form>
+                              </div>
+                              <label class="btn btn-primary">
+                                    Browse&hellip; <input type="file" class="fileUpload inputFile" name="inputFile" style="display: none;">
+                              </label>
+                              <button type="button" class="change-profile-btn btn btn-default" name="changeimage" size="70" >Upload</button>
+                        </fieldset>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               <div class="edit-password">
+                  <form class="edit-password">
+                     <fieldset>
+                        <legend>Change password:</legend>
+                        <div class="form-group">
+                           <label for="oldPwd">Old password:</label>
+                           <input type="password" class="form-control oldPwd" name="oldPwd">
+                        </div>
+                        <div class="form-group">
+                           <label for="newPwd">New password:</label>
+                           <input type="password" class="form-control newPwd" name="newPwd">
+                        </div>
+                        <div class="form-group">
+                           <label for="rePwd">Re-enter the new Password:</label>
+                           <input type="password" class="form-control rePwd" name="rePwd">
+                        </div>
+                        <button class="change-pwd-btn btn btn-default" type="button">Submit</button>
+                     </fieldset>
+                  </form>
+               </div>
+            </div>
+		</div>	
+         </section>
+         <section>
+		 <div class="panel panel-default">
+            <div class="edit-account panel-heading">
+               <h2>Email Information</h2>
+            </div>
+            <div class="edit-content panel-body">		 
+               <div class="edit-emailaddress">
+                  <form class="edit-emailaddress">
+                     <fieldset>
+                        <legend>Change email address:</legend>
+                        <div class="form-group">
+                           <label for="oldemailaddress">Old Email address:</label>
+                           <input type="email" class="form-control oldemailaddress" name="oldemailaddress" id="oldemailaddress" value="">
+                        </div>
+                        <div class="form-group">
+                           <label for="newemailaddress">New Email address:</label>
+                           <input type="email" class="form-control newemailaddress" name="newemailaddress" id="newemailaddress"  value="">
+                        </div>
+                        <button type="button" class="change-email-btn btn btn-default">Submit</button>
+                     </fieldset>
+                  </form>
+               </div>
+               <div class="edit-notification">
+                  <form action="">
+                     <fieldset>
+                        <legend>Change email notification:</legend>
+                        <div class="form-group">
+                           <input type="radio" name="time" value="r1" checked>
+                           <label for="time">30 minutes before</label>           
+                        </div>
+                        <div class="form-group">
+                           <input type="radio" name="time" value="r2"> 
+                           <label for="time">1 hour before</label>               
+                        </div>
+                        <div class="form-group">
+                           <input type="radio" name="time" value="r3">
+                           <label for="time">1 day before</label>                     
+                        </div>
+                        <div class="form-group">
+                           <input type="radio" name="time" value="r4"> 
+                           <label for="time">1 week before</label>                
+                        </div>
+                        <button type="button" class="change-notification-btn btn btn-default" name="changenotification" >Submit</button>
+                     </fieldset>
+                  </form>
+               </div>
+            </div>
+		</div>
+         </section>
+      </div>
+      <!-- Fixed Footer -->
+      <% include inc/footer %>
+   </body>
+</html>
+<!-- http://www.bootply.com/yN4vJBqR3k -->
